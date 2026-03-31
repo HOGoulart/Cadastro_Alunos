@@ -36,15 +36,14 @@ namespace CadastroAlunosAPI.Controllers
         }
 
         // POST - criar aluno
-        [HttpPost]
-        public async Task<ActionResult<Aluno>> PostAluno(Aluno aluno)
+        
+       [HttpPost]
+        public async Task<IActionResult> PostAluno(Aluno aluno)
         {
             _context.Alunos.Add(aluno);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetAluno), new { id = aluno.Id }, aluno);
-            
-            
         }
 
         // PUT - atualizar aluno
