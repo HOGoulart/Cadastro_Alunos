@@ -37,27 +37,37 @@ namespace CadastroAlunosAPI.Controllers
 
         // POST - criar aluno
         
-     [HttpPost]
-    public async Task<IActionResult> PostAluno(Aluno aluno)
+  [HttpPost]
+public async Task<IActionResult> PostAluno(Aluno aluno)
+{
+    try
     {
-    var existente = _context.Alunos
-        .FirstOrDefault(a => a.Email == aluno.Email);
+        var existente = _context.Alunos
+            .FirstOrDefault(a => a.Email == aluno.Email);
 
-    if (existente != null)
+        if (existente != null)
+        {
+            return Ok(new {
+                mensagem = "Você já está cadastrado! 😊",
+                jaExiste = true
+            });
+        }
+
+        _context.Alunos.Add(aluno);
+        await _context.SaveChangesAsync();
+
+        return Ok(new {
+            mensagem = "Cadastro realizado com sucesso! 🚀",
+            jaExiste = false
+        });
+    }
+    catch
     {
         return Ok(new {
             mensagem = "Você já está cadastrado! 😊",
             jaExiste = true
         });
     }
-
-    _context.Alunos.Add(aluno);
-    await _context.SaveChangesAsync();
-
-    return Ok(new {
-        mensagem = "Cadastro realizado com sucesso! 🚀",
-        jaExiste = false
-    });
 }
 
         // PUT - atualizar aluno
